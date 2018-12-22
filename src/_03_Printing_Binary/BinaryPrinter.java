@@ -14,10 +14,20 @@ public class BinaryPrinter {
 	}
 	
 	public void printIntBinary(int i) {
+	
 		
+		System.out.println(Integer.toBinaryString(i));
 	}
 	
 	public void printLongBinary(long l) {
-		
+		System.out.println(Long.toBinaryString(l));
+	}
+	
+	public static void main(String[] args) {
+		int x = 22;
+		long y = 22;
+		BinaryPrinter bp = new BinaryPrinter();
+		bp.printIntBinary(x);
+		bp.printLongBinary(y);
 	}
 }
