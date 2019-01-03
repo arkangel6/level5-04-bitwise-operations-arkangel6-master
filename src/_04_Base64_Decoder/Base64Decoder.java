@@ -34,10 +34,11 @@ public class Base64Decoder {
 	public static byte convertBase64Char(char c) {
 		for (int i = 0; i < base64Chars.length; i++) {
 			if (base64Chars[i] == c) {
+				System.out.println((byte) i);
 				return (byte) i;
 			}
 		}
-
+		
 		return (byte) 0;
 	}
 
@@ -45,39 +46,123 @@ public class Base64Decoder {
 	// characters long and return an array of 3 bytes (24 bits). The byte
 	// array should be the binary value of the encoded characters.
 	public static byte[] convert4CharsTo24Bits(String s) {
-		byte[] x = new byte[3];
-		String binary = "";
-		System.out.println(Arrays.toString(s.getBytes()));
-		byte[] ch = s.getBytes();
-		System.out.println(Arrays.toString(ch));
-		for (int i = 0; i < ch.length; i++) {
-			binary += Integer.toBinaryString(ch[i]);
-		}
-		System.out.println(binary);
-		for (int i = 0; i < 3; i++) {
-
-			String s1 = "";
-			for (int j = 0; j < 8; j++) {
-
-				s1 += binary.charAt(j + 8 * i);
-				System.out.println(j + 8 * i);
+		int[] array = new int[s.length()];
+		for(int i =0; i < s.length(); i++) {
+			for(int j = 0; j < base64Chars.length; j++) {
+				if(s.charAt(i) == base64Chars[j]) {
+					array[i] = convertBase64Char(base64Chars[j]);
+				}
+				
 			}
-
-			System.out.println(s1);
-			byte[] x1 = s1.getBytes();
-			x[i] = (byte) Character.getNumericValue(x1[0]);
-
 		}
+		
+		System.out.println(Arrays.toString(array));
+		
+		String[] arr = new String[s.length()];
+		for(int i = 0; i < s.length(); i++) {
+			String x = "";
+			if(Integer.toBinaryString(array[i]).length() != 6) {
+				for(int j = 0; j < 6-Integer.toBinaryString(array[i]).length(); j++) {
+					x += "0";
+				}
+				x+=Integer.toBinaryString(array[i]);
+				arr[i] = x;
+			}
+			else {
+				arr[i] = Integer.toBinaryString(array[i]);
+			}
+		}
+		
+		System.out.println(Arrays.toString(arr));
+		
+		String tot = "";
+		for(int i = 0; i < arr.length; i++) {
+			tot += arr[i];
+		}
+		
+		System.out.println(tot);
+		
+		String[] arrr = new String[3];
+		for(int i = 0; i <= 2; i++) {
+			String x = ""; 
+			for(int j = 0; j < 8; j++) {
+				x += tot.charAt(j+i*8);
+				
+			}
+			arrr[i] = x;
+		}
+		
+		System.out.println(Arrays.toString(arrr));
+		
+		byte[] arrrr = new byte[3];
+		for(int i = 0; i < arrr.length; i++) {
+			arrrr[i] = (byte) Integer.parseInt(arrr[i],2);
+		}
+		
+		System.out.println(Arrays.toString(arrrr));
 
-		System.out.println(Arrays.toString(x));
-		System.out.println("adskjfshdj");
-
-		return x;
+		return arrrr;
 	}
 
 	// 3. Complete this method so that it takes in a string of any length
 	// and returns the full byte array of the decoded base64 characters.
 	public static byte[] base64StringToByteArray(String file) {
-		return null;
+		int[] array = new int[file.length()];
+		for(int i =0; i < file.length(); i++) {
+			for(int j = 0; j < base64Chars.length; j++) {
+				if(file.charAt(i) == base64Chars[j]) {
+					array[i] = convertBase64Char(base64Chars[j]);
+				}
+				
+			}
+		}
+		
+		System.out.println(Arrays.toString(array));
+		
+		String[] arr = new String[file.length()];
+		for(int i = 0; i < file.length(); i++) {
+			String x = "";
+			if(Integer.toBinaryString(array[i]).length() != 6) {
+				for(int j = 0; j < 6-Integer.toBinaryString(array[i]).length(); j++) {
+					x += "0";
+				}
+				x+=Integer.toBinaryString(array[i]);
+				arr[i] = x;
+			}
+			else {
+				arr[i] = Integer.toBinaryString(array[i]);
+			}
+		}
+		
+		System.out.println(Arrays.toString(arr));
+		
+		String tot = "";
+		for(int i = 0; i < arr.length; i++) {
+			tot += arr[i];
+		}
+		
+		System.out.println(tot);
+		
+		int totLength = tot.length()/8;
+		System.out.println("total length/8=" + totLength + " total length=" + tot.length());
+		String[] arrr = new String[totLength];
+		for(int i = 0; i < totLength; i++) {
+			String x = ""; 
+			for(int j = 0; j < 8; j++) {
+				x += tot.charAt(j+i*8);
+			}
+			arrr[i] = x;
+		}
+		
+		System.out.println(Arrays.toString(arrr));
+		
+		byte[] arrrr = new byte[tot.length()/8];
+		for(int i = 0; i < arrr.length; i++) {
+			arrrr[i] = (byte) Integer.parseInt(arrr[i],2);
+		}
+		
+		System.out.println(Arrays.toString(arrrr));
+
+		return arrrr;
 	}
 }

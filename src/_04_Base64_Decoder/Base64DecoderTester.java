@@ -24,6 +24,7 @@ public class Base64DecoderTester {
 
 	@Test
 	public void testBase64ToByteArray() {
+		
 		byte[] answer = { 0, 0, 0 };
 		byte[] check = Base64Decoder.convert4CharsTo24Bits("AAAA");
 		// 000.000 000.000 000.000 000.000
